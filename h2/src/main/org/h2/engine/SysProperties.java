@@ -561,8 +561,13 @@ public class SysProperties {
      * to provide support for user defined custom data types.
      * It must be the same on client and server to work correctly.
      */
-    public static final String CUSTOM_DATA_TYPES_HANDLER =
-            Utils.getProperty("h2.customDataTypesHandler", null);
+    public static final ThreadLocal<String> CUSTOM_DATA_TYPES_HANDLER = new ThreadLocal<String>(){
+        @Override
+        protected String initialValue()
+        {
+            return Utils.getProperty("h2.customDataTypesHandler", "org.h2.engine.PasswordDataTypeHandler");
+        }
+    };
 
     /**
      * System property <code>h2.authConfigFile</code>
